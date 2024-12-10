@@ -38,6 +38,6 @@ jobs:
       - name: Output the details
         if: env.label_found == 'true'
         run: |
-          echo "Issue Title: ${{env.issue_title}}"
-          echo "Issue Body: ${{env.issue_body}}"
-          echo "Major Release: ${{env.major_release}}"
+          echo "Issue Title: ${{ env.issue_title }}"
+          echo "Issue Body: ${{ env.issue_body }}"
+          echo "Major Release: ${{ env.major_release }}"

@@ -5,9 +5,11 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "welcome-workflow" ]
+    # change back to main
   pull_request:
-    branches: [ "main" ]
+    branches: [ "welcome-workflow " ]
+      # change back to main
 
 jobs:
   build:
