@@ -1,0 +1,39 @@
+name: Test Plan
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  extract-values:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check label
+        id: check_label
+        run: |
+          if [[ "$(jq -r '.issues.labels[] | select(.name == "test_plan") | .name' < "$GITHUB_EVENT_PATH")" == "test_plan" ]]; then
+            echo "label_found=true" >> $GITHUB_ENV
+          else
+            echo "label_found=false" >> $GITHUB_ENV
+          fi
+
+      - name: Extract details
+        if: steps.check_label.outputs.label_found == 'true'
+        id: extract_details
+        run: |
+          ISSUE_TITLE=$(jq -r '.issue.title' < "$GITHUB_EVENT_PATH")
+          ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
+          MAJOR_RELEASE=$(echo "$ISSUE_BODY" | grep -i 'Is this a major release?' | cut -d ':' -f2- | xargs)
+          echo "issue_title=$ISSUE_TITLE" >> GITHUB_ENV
+          echo "issue_body=$ISSUE_BODY" >> GITHUB_ENV
+          echo "major_release=$MAJOR_RELEASE" >> GITHUB_ENV
+
+      - name: Output the details
+        if: steps.check_label.outputs.label_found == 'true'
+        run: |
+          echo "Issue Title: ${{steps.extract_details.outputs.issue_title}}"
+          echo "Issue Body: ${{steps.extract_details.outputs.issue_body}}"
+          echo "Major Release: ${{steps.extract_details.outputs.major_release}}"

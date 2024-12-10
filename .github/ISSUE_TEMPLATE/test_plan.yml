@@ -1,0 +1,16 @@
+name: Test Plan
+description: template
+labels: ["test_plan"]
+
+body:
+  - type: input
+    attributes:
+      label: Deliverable Name 
+
+  - type: dropdown
+    attributes:
+      label: Is this a major release?
+      options:
+        - "Yes"
+        - "No"
+      default: 0
