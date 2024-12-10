@@ -28,7 +28,15 @@ jobs:
         run: |
           ISSUE_TITLE=$(jq -r '.issue.title' < "$GITHUB_EVENT_PATH")
           ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
-          MAJOR_RELEASE=$(echo "$ISSUE_BODY" | grep -i 'Is this a major release?' | cut -d ':' -f2- | xargs)
-          echo "Issue title: $ISSUE_TITLE"
-          echo "Issue body: $ISSUE_BODY"
-          echo "Major release: $MAJOR_RELEASE" 
+          MAJOR_RELEASE=$(echo "$ISSUE_BODY" | grep -i 'Is this a major release?' | cut -d ':' -f2 | xargs)
+          echo "Issue_title=$ISSUE_TITLE" >> $GITHUB_ENV
+          echo "Issue_body=$ISSUE_BODY" >> $GITHUB_ENV
+          echo "Major_release=$MAJOR_RELEASE" >> $GITHUB_ENV
+
+      - name: Output the details
+        if: env.label_found == 'true'
+        run: |
+          echo "Env label found: ${{ env.label_found }}"
+          echo "Env Issue Title: ${{ env.issue_title }}"
+          echo "Env Issue Body: ${{ env.issue_body }}"
+          echo "Env Major Release: ${{ env.major_release }}"
