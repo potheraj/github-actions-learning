@@ -18,10 +18,8 @@ jobs:
           echo "Label Found: $LABEL_FOUND"
           if [[ "$LABEL_FOUND" == "test_plan" ]]; then
             echo "label_found=true" >> $GITHUB_ENV
-            echo "label_found: true"
           else
             echo "label_found=false" >> $GITHUB_ENV
-            echo "label_found: false"
           fi
 
       - name: Extract details
@@ -31,13 +29,6 @@ jobs:
           ISSUE_TITLE=$(jq -r '.issue.title' < "$GITHUB_EVENT_PATH")
           ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
           MAJOR_RELEASE=$(echo "$ISSUE_BODY" | grep -i 'Is this a major release?' | cut -d ':' -f2- | xargs)
-          echo "issue_title=$ISSUE_TITLE" >> GITHUB_ENV
-          echo "issue_body=$ISSUE_BODY" >> GITHUB_ENV
-          echo "major_release=$MAJOR_RELEASE" >> GITHUB_ENV
-
-      - name: Output the details
-        if: env.label_found == 'true'
-        run: |
-          echo "Issue Title: ${{ env.issue_title }}"
-          echo "Issue Body: ${{ env.issue_body }}"
-          echo "Major Release: ${{ env.major_release }}"
+          echo "Issue title: $ISSUE_TITLE"
+          echo "Issue body: $ISSUE_BODY"
+          echo "Major release: $MAJOR_RELEASE" 
