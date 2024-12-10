@@ -37,6 +37,6 @@ jobs:
         if: env.label_found == 'true'
         run: |
           echo "The label found: ${{ env.label_found }}"
-          echo "The Issue Title: ${{ env.issue_title }}"
-          echo "The Issue Body: ${{ env.issue_body }}"
-          echo "Major Release: ${{ env.major_release }}"
+          echo "The Issue Title: ${{ steps.extract_details.outputs.issue_title }}"
+          echo "The Issue Body: ${{ steps.extract_details.outputs.issue_body }}"
+          echo "Major Release: ${{ steps.extract_details.outputs.major_release }}"
