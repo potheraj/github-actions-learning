@@ -9,7 +9,8 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - welcome-workflow  
+      # change back to main
 
 # Reference: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 permissions:

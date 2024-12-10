@@ -16,8 +16,10 @@ jobs:
         run: |
           if [[ "$(jq -r '.issues.labels[] | select(.name == "test_plan") | .name' < "$GITHUB_EVENT_PATH")" == "test_plan" ]]; then
             echo "label_found=true" >> $GITHUB_ENV
+            echo "label_found: true"
           else
             echo "label_found=false" >> $GITHUB_ENV
+            echo "label_found: false"
           fi
 
       - name: Extract details
