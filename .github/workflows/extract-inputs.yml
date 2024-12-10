@@ -18,7 +18,7 @@ jobs:
           cat "$GITHUB_EVENT_PATH"
           LABEL_FOUND=$(jq -r '.issue.labels[] | select(.name == "test_plan") | .name' < "$GITHUB_EVENT_PATH")
           echo "Label Found: $LABEL_FOUND"
-          if [["$LABEL_FOUND" == "test_plan"]]; then
+          if [[ "$LABEL_FOUND" == "test_plan" ]]; then
             echo "label_found=true" >> $GITHUB_ENV
             echo "label_found: true"
           else
