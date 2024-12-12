@@ -39,6 +39,20 @@ jobs:
           echo "Deliverable: ${{ steps.extract_details.outputs.deliverable_name }}"
           echo "Major Release: ${{ steps.extract_details.outputs.major_release }}"
 
+      - name: Create GH Milestone
+        uses: actions/github-script@v6
+        with: 
+          script: |
+            const deliverable = '${{ steps.extract_details.outputs.deliverable_name }}';
+            const { data: milestone } = await github.rest.issues.createMilestone({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Testing Milestone`,
+              state: 'open',
+              description: 'this is a milestone for testing',
+              due_on: new Date().toISOString()
+            })
+
       - name: Create Github Sub-Issue
         uses: actions/github-script@v6
         with: 
