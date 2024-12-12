@@ -52,17 +52,27 @@ jobs:
               description: 'this is a milestone for testing',
               due_on: new Date().toISOString()
             })
+            core.setOutput('milestone_number', milestone.number)
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `Milestone #${milestone.number} created`
+            })
 
       - name: Create Github Sub-Issue
         uses: actions/github-script@v6
         with: 
           script: |
             const issueNumber = context.issue.number;
+            const milestoneNumber = core.getInput('milestone_number');
             const { data: subIssue } = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Testing Sub issue`,
-              body: 'Testing sub issue body'
+              body: 'Testing sub issue body',
+              milestone: milestoneNumber
             })
             core.setOutput('sub_issue_number', subIssue.number)
 
