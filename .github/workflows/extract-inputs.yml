@@ -20,9 +20,11 @@ jobs:
             echo "label_found=true" >> $GITHUB_ENV
           else
             echo "label_found=false" >> $GITHUB_ENV
+            echo "Required label not found. Exiting."
+            exit 1
           fi
 
-      - name: Extract details
+      - name: Extract issue details
         if: env.label_found == 'true'
         id: extract_details
         run: |

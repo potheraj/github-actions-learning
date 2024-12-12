@@ -7,6 +7,14 @@ body:
     attributes:
       label: Deliverable Name 
 
+
+  - type: markdown
+    attributes:
+      value: |
+        <!--
+        **Deliverable Name:** ${{ inputs['Deliverable Name']}}
+        -->
+        
   - type: dropdown
     attributes:
       label: Is this a major release?

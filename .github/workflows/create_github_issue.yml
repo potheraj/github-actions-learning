@@ -1,0 +1,40 @@
+name: Test Plan
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  extract-values:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check label
+        id: check_label
+        run: |
+          LABEL_FOUND=$(jq -r '.issue.labels[] | select(.name == "test_plan") | .name' < "$GITHUB_EVENT_PATH")
+          echo "Label Found: $LABEL_FOUND"
+          if [[ "$LABEL_FOUND" == "test_plan" ]]; then
+            echo "label_found=true" >> $GITHUB_ENV
+          else
+            echo "label_found=false" >> $GITHUB_ENV
+            echo "Required label not found. Exiting."
+            exit 1
+          fi
+
+      - name: Extract issue details
+        id: extract_details
+        run: ./extract_details.sh
+        env:
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_OUTPUT: ${{ github.output }}
+
+      - name: Output the details
+        if: env.label_found == 'true'
+        run: |
+          echo "The Issue Title: ${{ issue.title }}"
+          echo "The Issue Body: ${{ issue.body }}"
+          echo "Deliverable: ${{ steps.extract_details.outputs.deliverable_name }}"
+          echo "Major Release: ${{ steps.extract_details.outputs.major_release }}"
