@@ -1,4 +1,4 @@
-name: Test Plan
+name: Extract Inputs
 
 on:
   issues:

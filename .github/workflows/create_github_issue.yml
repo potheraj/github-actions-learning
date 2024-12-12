@@ -1,4 +1,4 @@
-name: Test Plan
+name: Create Github Issue
 
 on:
   issues:
@@ -34,7 +34,7 @@ jobs:
       - name: Output the details
         if: env.label_found == 'true'
         run: |
-          echo "The Issue Title: ${{ issue.title }}"
-          echo "The Issue Body: ${{ issue.body }}"
+          echo "The Issue Title: ${{ github.event.issue.title }}"
+          echo "The Issue Body: ${{ github.event.issue.body }}"
           echo "Deliverable: ${{ steps.extract_details.outputs.deliverable_name }}"
           echo "Major Release: ${{ steps.extract_details.outputs.major_release }}"
