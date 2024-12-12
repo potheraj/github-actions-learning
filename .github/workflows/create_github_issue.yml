@@ -49,7 +49,6 @@ jobs:
               repo: context.repo.repo,
               title: 'Testing Sub issue',
               body: '${github.event.issue.body}'
-              labels: ['sub-issue']
             })
             core.setOutput('sub_issue_number', subIssue.number)
 
