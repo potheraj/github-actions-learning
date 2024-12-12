@@ -44,7 +44,7 @@ jobs:
         with: 
           script: |
             const issueNumber = context.issue.number;
-            const { data.subissue } = await github.rest.issues.create({
+            const { data: subissue } = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Testing Sub issue',
