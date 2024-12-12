@@ -8,6 +8,7 @@ extract_section() {
     echo "$ISSUE_BODY" | awk -v section="$1" '
         $0 ~ section {flag=1; next}
         /^### / {flag=0}
+        flag {print}
     '
 }
 

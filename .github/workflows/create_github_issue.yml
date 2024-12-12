@@ -43,12 +43,12 @@ jobs:
         uses: actions/github-script@v6
         with: 
           script: |
-            const deliverable = '${{ steps.extract_details.outputs.deliverable_name }}';
+            const deliverable_name = '${{ steps.extract_details.outputs.deliverable_name }}';
             const issueNumber = context.issue.number;
             const { data: milestone } = await github.rest.issues.createMilestone({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `Milestone - ${deliverable}`,
+              title: `New Milestone - ${deliverable_name}`,
               state: 'open',
               description: 'this is a milestone for testing',
               due_on: new Date().toISOString()
