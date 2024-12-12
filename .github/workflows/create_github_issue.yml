@@ -38,3 +38,24 @@ jobs:
           echo "The Issue Body: ${{ github.event.issue.body }}"
           echo "Deliverable: ${{ steps.extract_details.outputs.deliverable_name }}"
           echo "Major Release: ${{ steps.extract_details.outputs.major_release }}"
+
+      - name: Create Github Sub-Issue
+        uses: actions/github-script@v6
+        with: 
+          script: |
+            const issueNumber = context.issue.number;
+            const { data.subissue } = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Testing Sub issue',
+              body: '${github.event.issue.body}'
+              labels: ['sub-issue']
+            })
+            core.setOutput('sub_issue_number', subIssue.number)
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: '#${subIssue.number}'
+            })
