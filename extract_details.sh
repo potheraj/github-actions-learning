@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Read the issue body from github event path
-ISSUE_BODY=$(jq -r 'issue.body' < "GITHUB_EVENT_PATH")
+ISSUE_BODY=$(jq -r 'issue.body' < "$GITHUB_EVENT_PATH")
 
 
 extract_section() {
