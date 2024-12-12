@@ -40,6 +40,7 @@ jobs:
           echo "Major Release: ${{ steps.extract_details.outputs.major_release }}"
 
       - name: Create GH Milestone
+        id: create_milestone
         uses: actions/github-script@v6
         with: 
           script: |
@@ -67,7 +68,7 @@ jobs:
         with: 
           script: |
             const issueNumber = context.issue.number;
-            const milestoneNumber = core.getOutput('milestone_number');
+            const milestoneNumber = '${{ steps.create_milestone.outputs.milestone_number }}';
             const { data: subIssue } = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
