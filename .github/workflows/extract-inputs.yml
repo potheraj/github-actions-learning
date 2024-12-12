@@ -1,51 +1,51 @@
-name: Extract Inputs
+# name: Extract Inputs
 
-on:
-  issues:
-    types: [opened]
+# on:
+#   issues:
+#     types: [opened]
 
-jobs:
-  extract-values:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+# jobs:
+#   extract-values:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Check label
-        id: check_label
-        run: |
-          LABEL_FOUND=$(jq -r '.issue.labels[] | select(.name == "test_plan") | .name' < "$GITHUB_EVENT_PATH")
-          echo "Label Found: $LABEL_FOUND"
-          if [[ "$LABEL_FOUND" == "test_plan" ]]; then
-            echo "label_found=true" >> $GITHUB_ENV
-          else
-            echo "label_found=false" >> $GITHUB_ENV
-            echo "Required label not found. Exiting."
-            exit 1
-          fi
+#       - name: Check label
+#         id: check_label
+#         run: |
+#           LABEL_FOUND=$(jq -r '.issue.labels[] | select(.name == "test_plan") | .name' < "$GITHUB_EVENT_PATH")
+#           echo "Label Found: $LABEL_FOUND"
+#           if [[ "$LABEL_FOUND" == "test_plan" ]]; then
+#             echo "label_found=true" >> $GITHUB_ENV
+#           else
+#             echo "label_found=false" >> $GITHUB_ENV
+#             echo "Required label not found. Exiting."
+#             exit 1
+#           fi
 
-      - name: Extract issue details
-        if: env.label_found == 'true'
-        id: extract_details
-        run: |
-          ISSUE_TITLE=$(jq -r '.issue.title' < "$GITHUB_EVENT_PATH")
-          ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
-          MAJOR_RELEASE=$(echo "$ISSUE_BODY" | awk -F ": " '/Is this a major release?/ {print $2}' | xargs)
-          DELIVERABLE=$(echo "$ISSUE_BODY" | grep -i 'Deliverable Name' | cut -d ':' -f2- | xargs)
-          echo "Issue Title: $ISSUE_TITLE"
-          echo "Issue Body: $ISSUE_BODY"
-          echo "Deliverable: $DELIVERABLE"
-          echo "Major Release: $MAJOR_RELEASE"
-          echo "issue_title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
-          echo "issue_body=$ISSUE_BODY" >> $GITHUB_OUTPUT
-          echo "major_release=$MAJOR_RELEASE" >> $GITHUB_OUTPUT
-          echo "deliverable=$DELIVERABLE" >> $GITHUB_OUTPUT
+#       - name: Extract issue details
+#         if: env.label_found == 'true'
+#         id: extract_details
+#         run: |
+#           ISSUE_TITLE=$(jq -r '.issue.title' < "$GITHUB_EVENT_PATH")
+#           ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
+#           MAJOR_RELEASE=$(echo "$ISSUE_BODY" | awk -F ": " '/Is this a major release?/ {print $2}' | xargs)
+#           DELIVERABLE=$(echo "$ISSUE_BODY" | grep -i 'Deliverable Name' | cut -d ':' -f2- | xargs)
+#           echo "Issue Title: $ISSUE_TITLE"
+#           echo "Issue Body: $ISSUE_BODY"
+#           echo "Deliverable: $DELIVERABLE"
+#           echo "Major Release: $MAJOR_RELEASE"
+#           echo "issue_title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
+#           echo "issue_body=$ISSUE_BODY" >> $GITHUB_OUTPUT
+#           echo "major_release=$MAJOR_RELEASE" >> $GITHUB_OUTPUT
+#           echo "deliverable=$DELIVERABLE" >> $GITHUB_OUTPUT
 
-      - name: Output the details
-        if: env.label_found == 'true'
-        run: |
-          echo "The label found: ${{ env.label_found }}"
-          echo "The Issue Title: ${{ steps.extract_details.outputs.issue_title }}"
-          echo "The Issue Body: ${{ steps.extract_details.outputs.issue_body }}"
-          echo "Deliverable: ${{ steps.extract_details.outputs.deliverable }}"
-          echo "Major Release: ${{ steps.extract_details.outputs.major_release }}"
+#       - name: Output the details
+#         if: env.label_found == 'true'
+#         run: |
+#           echo "The label found: ${{ env.label_found }}"
+#           echo "The Issue Title: ${{ steps.extract_details.outputs.issue_title }}"
+#           echo "The Issue Body: ${{ steps.extract_details.outputs.issue_body }}"
+#           echo "Deliverable: ${{ steps.extract_details.outputs.deliverable }}"
+#           echo "Major Release: ${{ steps.extract_details.outputs.major_release }}"
