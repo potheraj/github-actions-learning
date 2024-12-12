@@ -44,11 +44,11 @@ jobs:
         with: 
           script: |
             const issueNumber = context.issue.number;
-            const { data: subissue } = await github.rest.issues.create({
+            const { data: subIssue } = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: 'Testing Sub issue',
-              body: '${github.event.issue.body}'
+              title: `Testing Sub issue`,
+              body: 'Testing sub issue body'
             })
             core.setOutput('sub_issue_number', subIssue.number)
 
@@ -56,5 +56,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issueNumber,
-              body: '#${subIssue.number}'
+              body: `#${subIssue.number}`
             })
