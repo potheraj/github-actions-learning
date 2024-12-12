@@ -67,7 +67,7 @@ jobs:
         with: 
           script: |
             const issueNumber = context.issue.number;
-            const milestoneNumber = core.getInput('milestone_number');
+            const milestoneNumber = core.getOutput('milestone_number');
             const { data: subIssue } = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
