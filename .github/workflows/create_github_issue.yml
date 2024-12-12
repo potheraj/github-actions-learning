@@ -44,6 +44,7 @@ jobs:
         with: 
           script: |
             const deliverable = '${{ steps.extract_details.outputs.deliverable_name }}';
+            const issueNumber = context.issue.number;
             const { data: milestone } = await github.rest.issues.createMilestone({
               owner: context.repo.owner,
               repo: context.repo.repo,
