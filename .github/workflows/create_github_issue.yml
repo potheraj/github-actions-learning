@@ -2,10 +2,11 @@ name: Create Github Issue
 
 on:
   issues:
-    types: [opened]
+    types: [closed]
 
 jobs:
   extract-values:
+    if: contains(github.event.issue.labels.*.name, 'test_plan')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
