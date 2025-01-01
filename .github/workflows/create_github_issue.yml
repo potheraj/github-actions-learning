@@ -42,7 +42,7 @@ jobs:
 
       - name: Create GH Milestone
         id: create_milestone
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with: 
           script: |
             const deliverable_name = '${{ steps.extract_details.outputs.deliverable_name }}';
@@ -66,7 +66,7 @@ jobs:
             })
 
       - name: Create Github Sub-Issue
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with: 
           script: |
             const issueNumber = context.issue.number;
